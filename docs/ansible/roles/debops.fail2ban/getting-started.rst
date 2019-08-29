@@ -58,8 +58,13 @@ Here's an example playbook which uses ``debops.fail2ban`` role to install ``fail
 
     - name: Install fail2ban
       hosts: debops_fail2ban
+      become: True
+
+      environment: '{{ inventory__environment | d({})
+                   | combine(inventory__group_environment | d({}))
+                   | combine(inventory__host_environment  | d({})) }}'
 
       roles:
         - role: debops.fail2ban
-          tags: fail2ban
+          tags: role::fail2ban
 
